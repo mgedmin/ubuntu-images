@@ -14,6 +14,9 @@ wget -c http://lt.releases.ubuntu.com/trusty/SHA256SUMS.gpg -O SHA256SUMS.trusty
 ## wget -c http://lt.releases.ubuntu.com/trusty/ubuntu-14.04-server-amd64.iso
 
 ## for ubuntu-gnome: http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.10/release/
-wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.10/release/SHA256SUMS -O SHA256SUMS.utopic
-wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.10/release/SHA256SUMS.gpg -O SHA256SUMS.utopic.gpg
+## wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.10/release/SHA256SUMS -O SHA256SUMS.utopic
+## wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.10/release/SHA256SUMS.gpg -O SHA256SUMS.utopic.gpg
 ## wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.10/release/ubuntu-gnome-14.10-desktop-amd64.iso
+
+wget -c http://lt.releases.ubuntu.com/vivid/SHA256SUMS -O SHA256SUMS.vivid
+wget -c http://lt.releases.ubuntu.com/vivid/SHA256SUMS.gpg -O SHA256SUMS.vivid.gpg
