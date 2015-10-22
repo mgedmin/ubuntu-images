@@ -29,8 +29,14 @@ sha256sums_gpg := $(sha256sums:=.gpg)
 all: $(sha256sums) $(sha256sums_gpg) $(images)
 .PHONY: all
 
-verify: $(foreach fn,$(sha256sums),verify-$(fn))
-.PHONY: verify
+verify-sha256sums: $(foreach fn,$(sha256sums),verify-$(fn))
+.PHONY: verify-sha256sums
+
+verify-images: $(foreach fn,$(images),verify-$(fn))
+.PHONY: verify-images
+
+verify-all: verify-sha256sums verify-images
+.PHONY: verify-all
 
 SHA256SUMS.%:
 	wget -c http://lt.releases.ubuntu.com/$*/SHA256SUMS -O $@
@@ -54,3 +60,12 @@ ubuntu-gnome-15.10%.iso: ; wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releas
 verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
 
+define verify-recipe =
+grep $(@:verify-%=%) $< | sha256sum -c -
+endef
+
+verify-ubuntu-12.04%.iso: SHA256SUMS.precise ; $(verify-recipe)
+verify-ubuntu-14.04%.iso: SHA256SUMS.trusty  ; $(verify-recipe)
+verify-ubuntu-15.10%.iso: SHA256SUMS.wily    ; $(verify-recipe)
+verify-ubuntu-gnome-14.04%.iso: SHA256SUMS.ubuntu-gnome.trusty ; $(verify-recipe)
+verify-ubuntu-gnome-15.10%.iso: SHA256SUMS.ubuntu-gnome.wily   ; $(verify-recipe)
