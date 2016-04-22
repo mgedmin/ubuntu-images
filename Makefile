@@ -88,7 +88,7 @@ verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
 
 define verify-recipe =
-grep $(@:verify-%=%) $< | sha256sum -c -
+@grep $(@:verify-%=%) $< | sha256sum -c -
 endef
 
 verify-ubuntu-12.04%.iso: SHA256SUMS.precise ; $(verify-recipe)
