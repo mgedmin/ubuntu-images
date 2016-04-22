@@ -6,17 +6,29 @@ images :=
 ## images += ubuntu-12.04.4-desktop-i386.iso
 ## images += ubuntu-12.04.4-server-amd64.iso
 ## images += ubuntu-12.04.4-server-i386.iso
-images += ubuntu-14.04-server-amd64.iso
-images += ubuntu-14.04-desktop-amd64.iso
-images += ubuntu-gnome-14.04-desktop-amd64.iso
-images += ubuntu-15.10-desktop-amd64.iso
-images += ubuntu-gnome-15.10-desktop-amd64.iso
+## images += ubuntu-14.04-server-amd64.iso
+## images += ubuntu-14.04-desktop-amd64.iso
+## images += ubuntu-gnome-14.04-desktop-amd64.iso
+## images += ubuntu-15.10-desktop-amd64.iso
+## images += ubuntu-gnome-15.10-desktop-amd64.iso
+images += ubuntu-16.04-server-amd64.iso
+images += ubuntu-16.04-desktop-amd64.iso
+images += ubuntu-gnome-16.04-desktop-amd64.iso
 
 #
 # What SHA256 sums we want to verify those images?
 #
-releases := precise trusty wily
-ubuntu_gnome_releases := trusty wily
+releases :=
+## releases += precise
+## releases += trusty
+## releases += wily
+releases += xenial
+
+ubuntu_gnome_releases :=
+## ubuntu_gnome_releases += trusty
+## ubuntu_gnome_releases += wily
+ubuntu_gnome_releases := xenial
+
 verify := gpgv --keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 sha256sums := \
@@ -28,6 +40,16 @@ sha256sums_gpg := $(sha256sums:=.gpg)
 
 all: $(sha256sums) $(sha256sums_gpg) $(images)
 .PHONY: all
+
+help:
+	@echo "make all                     -- download all ISO images"
+	@echo "make <filename>.iso          -- download one ISO image"
+	@echo "make verify-sha256sums       -- verify GPG signatures of all SHA256SUMS files"
+	@echo "make verify-SHA256SUMS.<ver> -- verify SHA256 checksums of one SHA256SUMS file"
+	@echo "make verify-images           -- verify SHA256 checksums of all ISO images"
+	@echo "make verify-<filename>.iso   -- verify SHA256 checksums of one ISO image"
+	@echo "make verify-all              -- verify all of the above"
+.PHONY: help
 
 verify-sha256sums: $(foreach fn,$(sha256sums),verify-$(fn))
 .PHONY: verify-sha256sums
@@ -53,9 +75,11 @@ SHA256SUMS.ubuntu-gnome.%.gpg:
 ubuntu-12.04%.iso: ; wget -c http://lt.releases.ubuntu.com/12.04/$@
 ubuntu-14.04%.iso: ; wget -c http://lt.releases.ubuntu.com/14.04/$@
 ubuntu-15.10%.iso: ; wget -c http://lt.releases.ubuntu.com/15.10/$@
+ubuntu-16.04%.iso: ; wget -c http://lt.releases.ubuntu.com/16.04/$@
 
 ubuntu-gnome-14.04%.iso: ; wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.04/release/$@
 ubuntu-gnome-15.10%.iso: ; wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/15.10/release/$@
+ubuntu-gnome-16.04%.iso: ; wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/16.04/release/$@
 
 verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
@@ -67,5 +91,7 @@ endef
 verify-ubuntu-12.04%.iso: SHA256SUMS.precise ; $(verify-recipe)
 verify-ubuntu-14.04%.iso: SHA256SUMS.trusty  ; $(verify-recipe)
 verify-ubuntu-15.10%.iso: SHA256SUMS.wily    ; $(verify-recipe)
+verify-ubuntu-16.04%.iso: SHA256SUMS.xenial  ; $(verify-recipe)
 verify-ubuntu-gnome-14.04%.iso: SHA256SUMS.ubuntu-gnome.trusty ; $(verify-recipe)
 verify-ubuntu-gnome-15.10%.iso: SHA256SUMS.ubuntu-gnome.wily   ; $(verify-recipe)
+verify-ubuntu-gnome-16.04%.iso: SHA256SUMS.ubuntu-gnome.xenial ; $(verify-recipe)
