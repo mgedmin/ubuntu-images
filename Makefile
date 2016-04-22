@@ -16,7 +16,7 @@ images += ubuntu-16.04-desktop-amd64.iso
 images += ubuntu-gnome-16.04-desktop-amd64.iso
 
 #
-# What SHA256 sums we want to verify those images?
+# What SHA256 sums we want to download so we can verify the images above?
 #
 releases :=
 ## releases += precise
@@ -28,6 +28,9 @@ ubuntu_gnome_releases :=
 ## ubuntu_gnome_releases += trusty
 ## ubuntu_gnome_releases += wily
 ubuntu_gnome_releases := xenial
+
+ubuntu_mirror := http://lt.releases.ubuntu.com
+ubuntu_gnome_mirror := http://cdimage.ubuntu.com/ubuntu-gnome/releases
 
 verify := gpgv --keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg
 
@@ -64,25 +67,25 @@ verify-all: verify-sha256sums verify-images
 .PHONY: verify-all
 
 SHA256SUMS.%:
-	wget -c http://lt.releases.ubuntu.com/$*/SHA256SUMS -O $@
+	wget -c $(ubuntu_mirror)/$*/SHA256SUMS -O $@
 
 SHA256SUMS.%.gpg:
-	wget -c http://lt.releases.ubuntu.com/$*/SHA256SUMS.gpg -O $@
+	wget -c $(ubuntu_mirror)/$*/SHA256SUMS.gpg -O $@
 
 SHA256SUMS.ubuntu-gnome.%:
-	wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/$*/release/SHA256SUMS -O $@
+	wget -c $(ubuntu_gnome_mirror)/$*/release/SHA256SUMS -O $@
 
 SHA256SUMS.ubuntu-gnome.%.gpg:
-	wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/$*/release/SHA256SUMS.gpg -O $@
+	wget -c $(ubuntu_gnome_mirror)/$*/release/SHA256SUMS.gpg -O $@
 
-ubuntu-12.04%.iso: ; wget -c http://lt.releases.ubuntu.com/12.04/$@
-ubuntu-14.04%.iso: ; wget -c http://lt.releases.ubuntu.com/14.04/$@
-ubuntu-15.10%.iso: ; wget -c http://lt.releases.ubuntu.com/15.10/$@
-ubuntu-16.04%.iso: ; wget -c http://lt.releases.ubuntu.com/16.04/$@
+ubuntu-12.04%.iso: ; wget -c $(ubuntu_mirror)/12.04/$@
+ubuntu-14.04%.iso: ; wget -c $(ubuntu_mirror)/14.04/$@
+ubuntu-15.10%.iso: ; wget -c $(ubuntu_mirror)/15.10/$@
+ubuntu-16.04%.iso: ; wget -c $(ubuntu_mirror)/16.04/$@
 
-ubuntu-gnome-14.04%.iso: ; wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.04/release/$@
-ubuntu-gnome-15.10%.iso: ; wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/15.10/release/$@
-ubuntu-gnome-16.04%.iso: ; wget -c http://cdimage.ubuntu.com/ubuntu-gnome/releases/16.04/release/$@
+ubuntu-gnome-14.04%.iso: ; wget -c $(ubuntu_gnome_mirror)/14.04/release/$@
+ubuntu-gnome-15.10%.iso: ; wget -c $(ubuntu_gnome_mirror)/15.10/release/$@
+ubuntu-gnome-16.04%.iso: ; wget -c $(ubuntu_gnome_mirror)/16.04/release/$@
 
 verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
