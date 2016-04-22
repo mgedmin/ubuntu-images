@@ -49,6 +49,9 @@ help:
 	@echo "make verify-images           -- verify SHA256 checksums of all ISO images"
 	@echo "make verify-<filename>.iso   -- verify SHA256 checksums of one ISO image"
 	@echo "make verify-all              -- verify all of the above"
+	@echo
+	@echo "Default set of images:"
+	@printf "  %s\n" $(images)
 .PHONY: help
 
 verify-sha256sums: $(foreach fn,$(sha256sums),verify-$(fn))
