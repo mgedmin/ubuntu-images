@@ -13,7 +13,7 @@ images :=
 ## images += ubuntu-gnome-15.10-desktop-amd64.iso
 images += ubuntu-16.04-server-amd64.iso
 images += ubuntu-16.04-desktop-amd64.iso
-images += ubuntu-gnome-16.04-desktop-amd64.iso
+images += ubuntu-gnome-16.04.1-desktop-amd64.iso
 
 #
 # What SHA256 sums we want to download so we can verify the images above?
@@ -80,11 +80,9 @@ SHA256SUMS.ubuntu-gnome.%.gpg:
 
 ubuntu-12.04%.iso: ; wget -c $(ubuntu_mirror)/12.04/$@
 ubuntu-14.04%.iso: ; wget -c $(ubuntu_mirror)/14.04/$@
-ubuntu-15.10%.iso: ; wget -c $(ubuntu_mirror)/15.10/$@
 ubuntu-16.04%.iso: ; wget -c $(ubuntu_mirror)/16.04/$@
 
 ubuntu-gnome-14.04%.iso: ; wget -c $(ubuntu_gnome_mirror)/14.04/release/$@
-ubuntu-gnome-15.10%.iso: ; wget -c $(ubuntu_gnome_mirror)/15.10/release/$@
 ubuntu-gnome-16.04%.iso: ; wget -c $(ubuntu_gnome_mirror)/16.04/release/$@
 
 verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
@@ -94,10 +92,7 @@ define verify-recipe =
 @grep $(@:verify-%=%) $< | sha256sum -c -
 endef
 
-verify-ubuntu-12.04%.iso: SHA256SUMS.precise ; $(verify-recipe)
 verify-ubuntu-14.04%.iso: SHA256SUMS.trusty  ; $(verify-recipe)
-verify-ubuntu-15.10%.iso: SHA256SUMS.wily    ; $(verify-recipe)
 verify-ubuntu-16.04%.iso: SHA256SUMS.xenial  ; $(verify-recipe)
 verify-ubuntu-gnome-14.04%.iso: SHA256SUMS.ubuntu-gnome.trusty ; $(verify-recipe)
-verify-ubuntu-gnome-15.10%.iso: SHA256SUMS.ubuntu-gnome.wily   ; $(verify-recipe)
 verify-ubuntu-gnome-16.04%.iso: SHA256SUMS.ubuntu-gnome.xenial ; $(verify-recipe)
