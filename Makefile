@@ -32,8 +32,8 @@ releases += yakkety
 
 ubuntu_gnome_releases :=
 ## ubuntu_gnome_releases += trusty
-ubuntu_gnome_releases := xenial
-ubuntu_gnome_releases := yakkety
+ubuntu_gnome_releases += xenial
+ubuntu_gnome_releases += yakkety
 
 ubuntu_mirror := http://lt.releases.ubuntu.com
 ubuntu_gnome_mirror := http://cdimage.ubuntu.com/ubuntu-gnome/releases
