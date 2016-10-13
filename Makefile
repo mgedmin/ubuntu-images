@@ -102,5 +102,7 @@ endef
 
 verify-ubuntu-14.04%.iso: SHA256SUMS.trusty  ; $(verify-recipe)
 verify-ubuntu-16.04%.iso: SHA256SUMS.xenial  ; $(verify-recipe)
-verify-ubuntu-gnome-14.04%.iso: SHA256SUMS.ubuntu-gnome.trusty ; $(verify-recipe)
-verify-ubuntu-gnome-16.04%.iso: SHA256SUMS.ubuntu-gnome.xenial ; $(verify-recipe)
+verify-ubuntu-16.10%.iso: SHA256SUMS.yakkety ; $(verify-recipe)
+verify-ubuntu-gnome-14.04%.iso: SHA256SUMS.ubuntu-gnome.trusty  ; $(verify-recipe)
+verify-ubuntu-gnome-16.04%.iso: SHA256SUMS.ubuntu-gnome.xenial  ; $(verify-recipe)
+verify-ubuntu-gnome-16.10%.iso: SHA256SUMS.ubuntu-gnome.yakkety ; $(verify-recipe)
