@@ -8,12 +8,17 @@ images :=
 ## images += ubuntu-12.04.4-server-i386.iso
 ## images += ubuntu-14.04-server-amd64.iso
 ## images += ubuntu-14.04-desktop-amd64.iso
+## images += ubuntu-14.04.5-server-amd64.iso
+## images += ubuntu-14.04.5-desktop-amd64.iso
 ## images += ubuntu-gnome-14.04-desktop-amd64.iso
 ## images += ubuntu-15.10-desktop-amd64.iso
 ## images += ubuntu-gnome-15.10-desktop-amd64.iso
-images += ubuntu-16.04-server-amd64.iso
-images += ubuntu-16.04-desktop-amd64.iso
+## images += ubuntu-16.04-server-amd64.iso
+## images += ubuntu-16.04-desktop-amd64.iso
+images += ubuntu-16.04.1-server-amd64.iso
+images += ubuntu-16.04.1-desktop-amd64.iso
 images += ubuntu-gnome-16.04.1-desktop-amd64.iso
+images += ubuntu-gnome-16.10-desktop-amd64.iso
 
 #
 # What SHA256 sums we want to download so we can verify the images above?
@@ -21,13 +26,13 @@ images += ubuntu-gnome-16.04.1-desktop-amd64.iso
 releases :=
 ## releases += precise
 ## releases += trusty
-## releases += wily
 releases += xenial
+## releases += yakkety
 
 ubuntu_gnome_releases :=
 ## ubuntu_gnome_releases += trusty
-## ubuntu_gnome_releases += wily
 ubuntu_gnome_releases := xenial
+ubuntu_gnome_releases := yakkety
 
 ubuntu_mirror := http://lt.releases.ubuntu.com
 ubuntu_gnome_mirror := http://cdimage.ubuntu.com/ubuntu-gnome/releases
@@ -81,9 +86,11 @@ SHA256SUMS.ubuntu-gnome.%.gpg:
 ubuntu-12.04%.iso: ; wget -c $(ubuntu_mirror)/12.04/$@
 ubuntu-14.04%.iso: ; wget -c $(ubuntu_mirror)/14.04/$@
 ubuntu-16.04%.iso: ; wget -c $(ubuntu_mirror)/16.04/$@
+ubuntu-16.10%.iso: ; wget -c $(ubuntu_mirror)/16.10/$@
 
 ubuntu-gnome-14.04%.iso: ; wget -c $(ubuntu_gnome_mirror)/14.04/release/$@
 ubuntu-gnome-16.04%.iso: ; wget -c $(ubuntu_gnome_mirror)/16.04/release/$@
+ubuntu-gnome-16.10%.iso: ; wget -c $(ubuntu_gnome_mirror)/16.10/release/$@
 
 verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
