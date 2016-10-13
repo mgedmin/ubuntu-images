@@ -18,6 +18,7 @@ images :=
 images += ubuntu-16.04.1-server-amd64.iso
 images += ubuntu-16.04.1-desktop-amd64.iso
 images += ubuntu-gnome-16.04.1-desktop-amd64.iso
+images += ubuntu-16.10-desktop-amd64.iso
 images += ubuntu-gnome-16.10-desktop-amd64.iso
 
 #
@@ -27,7 +28,7 @@ releases :=
 ## releases += precise
 ## releases += trusty
 releases += xenial
-## releases += yakkety
+releases += yakkety
 
 ubuntu_gnome_releases :=
 ## ubuntu_gnome_releases += trusty
