@@ -15,9 +15,9 @@ images :=
 ## images += ubuntu-gnome-15.10-desktop-amd64.iso
 ## images += ubuntu-16.04-server-amd64.iso
 ## images += ubuntu-16.04-desktop-amd64.iso
-images += ubuntu-16.04.1-server-amd64.iso
-images += ubuntu-16.04.1-desktop-amd64.iso
-images += ubuntu-gnome-16.04.1-desktop-amd64.iso
+images += ubuntu-16.04.2-server-amd64.iso
+images += ubuntu-16.04.2-desktop-amd64.iso
+## images += ubuntu-gnome-16.04.1-desktop-amd64.iso
 images += ubuntu-16.10-desktop-amd64.iso
 images += ubuntu-gnome-16.10-desktop-amd64.iso
 
