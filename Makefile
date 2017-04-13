@@ -18,8 +18,8 @@ images :=
 images += ubuntu-16.04.2-server-amd64.iso
 images += ubuntu-16.04.2-desktop-amd64.iso
 ## images += ubuntu-gnome-16.04.1-desktop-amd64.iso
-images += ubuntu-16.10-desktop-amd64.iso
-images += ubuntu-gnome-16.10-desktop-amd64.iso
+images += ubuntu-17.04-desktop-amd64.iso
+images += ubuntu-gnome-17.04-desktop-amd64.iso
 
 #
 # What SHA256 sums we want to download so we can verify the images above?
@@ -28,12 +28,14 @@ releases :=
 ## releases += precise
 ## releases += trusty
 releases += xenial
-releases += yakkety
+## releases += yakkety
+releases += zesty
 
 ubuntu_gnome_releases :=
 ## ubuntu_gnome_releases += trusty
 ubuntu_gnome_releases += xenial
-ubuntu_gnome_releases += yakkety
+## ubuntu_gnome_releases += yakkety
+ubuntu_gnome_releases += zesty
 
 ubuntu_mirror := http://lt.releases.ubuntu.com
 ubuntu_gnome_mirror := http://cdimage.ubuntu.com/ubuntu-gnome/releases
@@ -88,10 +90,12 @@ ubuntu-12.04%.iso: ; wget -c $(ubuntu_mirror)/12.04/$@
 ubuntu-14.04%.iso: ; wget -c $(ubuntu_mirror)/14.04/$@
 ubuntu-16.04%.iso: ; wget -c $(ubuntu_mirror)/16.04/$@
 ubuntu-16.10%.iso: ; wget -c $(ubuntu_mirror)/16.10/$@
+ubuntu-17.04%.iso: ; wget -c $(ubuntu_mirror)/17.04/$@
 
 ubuntu-gnome-14.04%.iso: ; wget -c $(ubuntu_gnome_mirror)/14.04/release/$@
 ubuntu-gnome-16.04%.iso: ; wget -c $(ubuntu_gnome_mirror)/16.04/release/$@
 ubuntu-gnome-16.10%.iso: ; wget -c $(ubuntu_gnome_mirror)/16.10/release/$@
+ubuntu-gnome-17.04%.iso: ; wget -c $(ubuntu_gnome_mirror)/17.04/release/$@
 
 verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
@@ -103,8 +107,10 @@ endef
 verify-ubuntu-14.04%.iso: SHA256SUMS.trusty  ; $(verify-recipe)
 verify-ubuntu-16.04%.iso: SHA256SUMS.xenial  ; $(verify-recipe)
 verify-ubuntu-16.10%.iso: SHA256SUMS.yakkety ; $(verify-recipe)
+verify-ubuntu-17.04%.iso: SHA256SUMS.zesty   ; $(verify-recipe)
 verify-ubuntu-gnome-14.04%.iso: SHA256SUMS.ubuntu-gnome.trusty  ; $(verify-recipe)
 verify-ubuntu-gnome-16.04%.iso: SHA256SUMS.ubuntu-gnome.xenial  ; $(verify-recipe)
 verify-ubuntu-gnome-16.10%.iso: SHA256SUMS.ubuntu-gnome.yakkety ; $(verify-recipe)
+verify-ubuntu-gnome-17.04%.iso: SHA256SUMS.ubuntu-gnome.zesty   ; $(verify-recipe)
 
 .PRECIOUS: %.iso SHA256SUMS.%
