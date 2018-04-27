@@ -1,19 +1,27 @@
 #
-# What images we want to download?
+# The Ubuntu mirror we want to use.
+# Usually it's http://<country-code>.releases.ubuntu.com
 #
+
+ubuntu_mirror := http://lt.releases.ubuntu.com
+
+#
+# What images we want to download?
+# Look up the filenames at $(ubuntu_mirror)
+#
+
 images :=
-images += ubuntu-16.04.3-server-amd64.iso
-images += ubuntu-16.04.3-desktop-amd64.iso
-images += ubuntu-17.10-desktop-amd64.iso
+images += ubuntu-16.04.4-server-amd64.iso
+images += ubuntu-18.04-desktop-amd64.iso
+images += ubuntu-18.04-live-server-amd64.iso
 
 #
 # What SHA256 sums we want to download so we can verify the images above?
+# Look at the URL path components at $(ubuntu_mirror)
 #
 releases :=
 releases += xenial
-releases += artful
-
-ubuntu_mirror := http://lt.releases.ubuntu.com
+releases += bionic
 
 verify := gpgv --keyring=/usr/share/keyrings/ubuntu-archive-removed-keys.gpg \
                --keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg
@@ -44,6 +52,8 @@ help:
 download-signatures: $(sha256sums) $(sha256sums_gpg)
 .PHONY: download-signatures
 
+verify-signatures: verify-sha256sums
+.PHONY: verify-signatures
 
 verify-sha256sums: $(foreach fn,$(sha256sums),verify-$(fn))
 .PHONY: verify-sha256sums
@@ -61,7 +71,7 @@ SHA256SUMS.%.gpg:
 	wget -c $(ubuntu_mirror)/$*/SHA256SUMS.gpg -O $@
 
 ubuntu-16.04%.iso: ; wget -c $(ubuntu_mirror)/16.04/$@
-ubuntu-17.10%.iso: ; wget -c $(ubuntu_mirror)/17.10/$@
+ubuntu-18.04%.iso: ; wget -c $(ubuntu_mirror)/18.04/$@
 
 verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
@@ -71,6 +81,6 @@ define verify-recipe =
 endef
 
 verify-ubuntu-16.04%.iso: SHA256SUMS.xenial  ; $(verify-recipe)
-verify-ubuntu-17.10%.iso: SHA256SUMS.artful  ; $(verify-recipe)
+verify-ubuntu-18.04%.iso: SHA256SUMS.bionic  ; $(verify-recipe)
 
 .PRECIOUS: %.iso SHA256SUMS.%
