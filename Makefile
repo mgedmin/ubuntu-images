@@ -16,20 +16,25 @@ images += ubuntu-18.04-desktop-amd64.iso
 images += ubuntu-18.04-live-server-amd64.iso
 
 #
-# What SHA256 sums we want to download so we can verify the images above?
-# Look at the URL path components at $(ubuntu_mirror)
+# Implementation
 #
-releases :=
-releases += xenial
-releases += bionic
 
-verify := gpgv --keyring=/usr/share/keyrings/ubuntu-archive-removed-keys.gpg \
-               --keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg
+# $(call split,16.04.4-desktop-amd64.iso,-) -> 16.04.4 desktop amd64.iso
+# $(call majver,16.04.4) -> 16.04
+# $(call release,16.04.4-desktop-amd64.iso) -> 16.04
+split = $(subst $2, ,$1)
+majver = $(firstword $(call split,$1,.)).$(word 2,$(call split,$1,.))
+release = $(call majver,$(firstword $(call split,$1,-)))
+
+releases := $(foreach fn,$(images),$(call release,$(fn:ubuntu-%=%)))
 
 sha256sums := \
   $(foreach release,$(releases),SHA256SUMS.${release})
 
 sha256sums_gpg := $(sha256sums:=.gpg)
+
+verify := gpgv --keyring=/usr/share/keyrings/ubuntu-archive-removed-keys.gpg \
+               --keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 
 all: $(sha256sums) $(sha256sums_gpg) $(images)
@@ -70,24 +75,14 @@ SHA256SUMS.%:
 SHA256SUMS.%.gpg:
 	wget -c $(ubuntu_mirror)/$*/SHA256SUMS.gpg -O $@
 
-# $(call split,16.04.4-desktop-amd64.iso,-) -> 16.04.4 desktop amd64.iso
-# $(call majver,16.04.4) -> 16.04
-# $(call release,16.04.4-desktop-amd64.iso) -> 16.04
-split = $(subst $2, ,$1)
-majver = $(firstword $(call split,$1,.)).$(word 2,$(call split,$1,.))
-release = $(call majver,$(firstword $(call split,$1,-)))
-
-ubuntu-%.iso: ver=$(call release,$*)
-ubuntu-%.iso: ; wget -c $(ubuntu_mirror)/$(ver)/$@
+ubuntu-%.iso:
+	wget -c $(ubuntu_mirror)/$(call release,$*)/$@
 
 verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
 
-define verify-recipe =
-@grep $(@:verify-%=%) $< | sha256sum -c -
-endef
-
-verify-ubuntu-16.04%.iso: SHA256SUMS.xenial  ; $(verify-recipe)
-verify-ubuntu-18.04%.iso: SHA256SUMS.bionic  ; $(verify-recipe)
+.SECONDEXPANSION:
+verify-ubuntu-%.iso: SHA256SUMS.$$(call release,$$*)
+	@grep $(@:verify-%=%) $< | sha256sum -c -
 
 .PRECIOUS: %.iso SHA256SUMS.%
