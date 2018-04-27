@@ -70,8 +70,15 @@ SHA256SUMS.%:
 SHA256SUMS.%.gpg:
 	wget -c $(ubuntu_mirror)/$*/SHA256SUMS.gpg -O $@
 
-ubuntu-16.04%.iso: ; wget -c $(ubuntu_mirror)/16.04/$@
-ubuntu-18.04%.iso: ; wget -c $(ubuntu_mirror)/18.04/$@
+# $(call split,16.04.4-desktop-amd64.iso,-) -> 16.04.4 desktop amd64.iso
+# $(call majver,16.04.4) -> 16.04
+# $(call release,16.04.4-desktop-amd64.iso) -> 16.04
+split = $(subst $2, ,$1)
+majver = $(firstword $(call split,$1,.)).$(word 2,$(call split,$1,.))
+release = $(call majver,$(firstword $(call split,$1,-)))
+
+ubuntu-%.iso: ver=$(call release,$*)
+ubuntu-%.iso: ; wget -c $(ubuntu_mirror)/$(ver)/$@
 
 verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
