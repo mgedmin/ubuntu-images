@@ -16,7 +16,14 @@ images += ubuntu-18.04-desktop-amd64.iso
 images += ubuntu-18.04-live-server-amd64.iso
 
 #
-# Implementation
+# Where are the keyrings located that contain trusted repository GPG keys?
+#
+
+verify := gpgv --keyring=/usr/share/keyrings/ubuntu-archive-removed-keys.gpg \
+               --keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+#
+# Implementation: helper functions
 #
 
 # $(call split,16.04.4-desktop-amd64.iso,-) -> 16.04.4 desktop amd64.iso
@@ -26,16 +33,15 @@ split = $(subst $2, ,$1)
 majver = $(firstword $(call split,$1,.)).$(word 2,$(call split,$1,.))
 release = $(call majver,$(firstword $(call split,$1,-)))
 
+# Compute Ubuntu releases and SHA256SUMS files
+
 releases := $(foreach fn,$(images),$(call release,$(fn:ubuntu-%=%)))
-
-sha256sums := \
-  $(foreach release,$(releases),SHA256SUMS.${release})
-
+sha256sums := $(foreach release,$(releases),SHA256SUMS.$(release))
 sha256sums_gpg := $(sha256sums:=.gpg)
 
-verify := gpgv --keyring=/usr/share/keyrings/ubuntu-archive-removed-keys.gpg \
-               --keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg
-
+#
+# Rules
+#
 
 all: $(sha256sums) $(sha256sums_gpg) $(images)
 .PHONY: all
@@ -56,9 +62,6 @@ help:
 
 download-signatures: $(sha256sums) $(sha256sums_gpg)
 .PHONY: download-signatures
-
-verify-signatures: verify-sha256sums
-.PHONY: verify-signatures
 
 verify-sha256sums: $(foreach fn,$(sha256sums),verify-$(fn))
 .PHONY: verify-sha256sums
