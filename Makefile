@@ -85,7 +85,7 @@ verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
 
 .SECONDEXPANSION:
-verify-ubuntu-%.iso: SHA256SUMS.$$(call release,$$*)
+verify-ubuntu-%.iso: SHA256SUMS.$$(call release,$$*) ubuntu-%.iso
 	@grep $(@:verify-%=%) $< | sha256sum -c -
 
 .PRECIOUS: %.iso SHA256SUMS.%
