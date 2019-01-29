@@ -14,6 +14,7 @@ images :=
 images += ubuntu-16.04.5-server-amd64.iso
 images += ubuntu-18.04.1-desktop-amd64.iso
 images += ubuntu-18.04.1-live-server-amd64.iso
+images += ubuntu-18.10-desktop-amd64.iso
 
 #
 # Where are the keyrings located that contain trusted repository GPG keys?
