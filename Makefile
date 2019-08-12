@@ -51,6 +51,7 @@ help:
 	@echo "make all                     -- download all ISO images"
 	@echo "make <filename>.iso          -- download one ISO image"
 	@echo "make download-signatures     -- download all SHA256SUMS files"
+	@echo "make urls                    -- print URLs for ISO images and SHA256SUMS files"
 	@echo "make verify-sha256sums       -- verify GPG signatures of all SHA256SUMS files"
 	@echo "make verify-SHA256SUMS.<ver> -- verify SHA256 checksums of one SHA256SUMS file"
 	@echo "make verify-images           -- verify SHA256 checksums of all ISO images"
@@ -64,6 +65,9 @@ help:
 download-signatures: $(sha256sums) $(sha256sums_gpg)
 .PHONY: download-signatures
 
+urls: $(sha256sums:=.url) $(sha256sums_gpg:=.url) $(images:=.url)
+.PHONY: urls
+
 verify-sha256sums: $(foreach fn,$(sha256sums),verify-$(fn))
 .PHONY: verify-sha256sums
 
@@ -76,11 +80,20 @@ verify-all: verify-sha256sums verify-images
 SHA256SUMS.%:
 	wget -c $(ubuntu_mirror)/$*/SHA256SUMS -O $@
 
+SHA256SUMS.%.url:
+	@echo $(ubuntu_mirror)/$*/SHA256SUMS
+
 SHA256SUMS.%.gpg:
 	wget -c $(ubuntu_mirror)/$*/SHA256SUMS.gpg -O $@
 
+SHA256SUMS.%.gpg.url:
+	@echo $(ubuntu_mirror)/$*/SHA256SUMS.gpg
+
 ubuntu-%.iso:
 	wget -c $(ubuntu_mirror)/$(call release,$*)/$@
+
+ubuntu-%.iso.url:
+	@echo $(ubuntu_mirror)/$(call release,$*)/ubuntu-$*.iso
 
 verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 	$(verify) SHA256SUMS.$*.gpg SHA256SUMS.$*
