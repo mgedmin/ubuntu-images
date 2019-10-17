@@ -5,6 +5,8 @@
 
 ubuntu_mirror := http://lt.releases.ubuntu.com
 
+# NB: https://torrent.ubuntu.com/tracker_index might also be an option
+
 #
 # What images we want to download?
 # Look up the filenames at $(ubuntu_mirror)
@@ -15,6 +17,7 @@ images += ubuntu-16.04.6-server-amd64.iso
 images += ubuntu-18.04.3-desktop-amd64.iso
 images += ubuntu-18.04.3-live-server-amd64.iso
 images += ubuntu-19.04-desktop-amd64.iso
+images += ubuntu-19.10-desktop-amd64.iso
 
 #
 # Where are the keyrings located that contain trusted repository GPG keys?
