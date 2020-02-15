@@ -14,8 +14,8 @@ ubuntu_mirror := http://lt.releases.ubuntu.com
 
 images :=
 images += ubuntu-16.04.6-server-amd64.iso
-images += ubuntu-18.04.3-desktop-amd64.iso
-images += ubuntu-18.04.3-live-server-amd64.iso
+images += ubuntu-18.04.4-desktop-amd64.iso
+images += ubuntu-18.04.4-live-server-amd64.iso
 images += ubuntu-19.10-desktop-amd64.iso
 
 #
