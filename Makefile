@@ -54,6 +54,7 @@ help:
 	@echo "make <filename>.iso          -- download one ISO image"
 	@echo "make download-signatures     -- download all SHA256SUMS files"
 	@echo "make urls                    -- print URLs for ISO images and SHA256SUMS files"
+	@echo "make show-shasums            -- print SHA256 checksums for all ISO images"
 	@echo "make verify-sha256sums       -- verify GPG signatures of all SHA256SUMS files"
 	@echo "make verify-SHA256SUMS.<ver> -- verify SHA256 checksums of one SHA256SUMS file"
 	@echo "make verify-images           -- verify SHA256 checksums of all ISO images"
@@ -72,6 +73,9 @@ urls: $(sha256sums:=.url) $(sha256sums_gpg:=.url) $(images:=.url)
 
 verify-sha256sums: $(foreach fn,$(sha256sums),verify-$(fn))
 .PHONY: verify-sha256sums
+
+show-shasums: $(foreach fn,$(images),show-$(fn)-shasum)
+.PHONY: show-shasums
 
 verify-images: $(foreach fn,$(images),verify-$(fn))
 .PHONY: verify-images
@@ -103,5 +107,9 @@ verify-SHA256SUMS.%: SHA256SUMS.% SHA256SUMS.%.gpg
 .SECONDEXPANSION:
 verify-ubuntu-%.iso: SHA256SUMS.$$(call release,$$*) ubuntu-%.iso
 	@grep $(@:verify-%=%) $< | sha256sum -c -
+
+.SECONDEXPANSION:
+show-ubuntu-%.iso-shasum: SHA256SUMS.$$(call release,$$*)
+	@grep $(@:show-%-shasum=%) $<
 
 .PRECIOUS: %.iso SHA256SUMS.%
