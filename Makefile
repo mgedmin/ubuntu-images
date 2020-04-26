@@ -42,6 +42,12 @@ releases := $(foreach fn,$(images),$(call release,$(fn:ubuntu-%=%)))
 sha256sums := $(foreach release,$(releases),SHA256SUMS.$(release))
 sha256sums_gpg := $(sha256sums:=.gpg)
 
+# Compute outdated files
+
+old_images = $(filter-out $(images),$(wildcard *.iso))
+old_sha256sums = $(filter-out $(sha256sums),$(wildcard SHA256SUMS.??.??))
+old_sha256sums_gpg = $(filter-out $(sha256sums_gpg),$(wildcard SHA256SUMS.*.gpg))
+
 #
 # Rules
 #
@@ -60,6 +66,8 @@ help:
 	@echo "make verify-images           -- verify SHA256 checksums of all ISO images"
 	@echo "make verify-<filename>.iso   -- verify SHA256 checksums of one ISO image"
 	@echo "make verify-all              -- verify all of the above"
+	@echo "make show-old-files          -- show old ISO/SHA256SUM/GPG signature files"
+	@echo "make clean-old-files         -- remove old ISO/SHA256SUM/GPG signature files"
 	@echo
 	@echo "Default set of images:"
 	@printf "  %s\n" $(images)
@@ -82,6 +90,14 @@ verify-images: $(foreach fn,$(images),verify-$(fn))
 
 verify-all: verify-sha256sums verify-images
 .PHONY: verify-all
+
+.PHONY: show-old-files
+show-old-files:
+	@printf "%s\n" $(old_images) $(old_sha256sums) $(old_sha256sums_gpg)
+
+.PHONY: clean-old-files
+clean-old-files:
+	rm -f $(old_images) $(old_sha256sums) $(old_sha256sums_gpg)
 
 SHA256SUMS.%:
 	wget -c $(ubuntu_mirror)/$*/SHA256SUMS -O $@
