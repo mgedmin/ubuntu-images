@@ -47,6 +47,7 @@ sha256sums_gpg := $(sha256sums:=.gpg)
 old_images = $(filter-out $(images),$(wildcard *.iso))
 old_sha256sums = $(filter-out $(sha256sums),$(wildcard SHA256SUMS.??.??))
 old_sha256sums_gpg = $(filter-out $(sha256sums_gpg),$(wildcard SHA256SUMS.*.gpg))
+old_files = $(sort $(old_images) $(old_sha256sums) $(old_sha256sums_gpg))
 
 #
 # Rules
@@ -93,11 +94,11 @@ verify-all: verify-sha256sums verify-images
 
 .PHONY: show-old-files
 show-old-files:
-	@printf "%s\n" $(old_images) $(old_sha256sums) $(old_sha256sums_gpg)
+	@printf "%s\n" $(old_files)
 
 .PHONY: clean-old-files
 clean-old-files:
-	rm -f $(old_images) $(old_sha256sums) $(old_sha256sums_gpg)
+	rm -f $(old_files)
 
 SHA256SUMS.%:
 	wget -c $(ubuntu_mirror)/$*/SHA256SUMS -O $@
