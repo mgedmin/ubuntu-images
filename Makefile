@@ -13,10 +13,10 @@ ubuntu_mirror := http://lt.releases.ubuntu.com
 #
 
 images :=
-images += ubuntu-16.04.6-server-amd64.iso
-images += ubuntu-18.04.4-live-server-amd64.iso
-images += ubuntu-20.04-desktop-amd64.iso
-images += ubuntu-20.04-live-server-amd64.iso
+images += ubuntu-16.04.7-server-amd64.iso
+images += ubuntu-18.04.5-live-server-amd64.iso
+images += ubuntu-20.04.1-desktop-amd64.iso
+images += ubuntu-20.04.1-live-server-amd64.iso
 
 #
 # Where are the keyrings located that contain trusted repository GPG keys?
