@@ -68,6 +68,7 @@ help:
 	@echo "make verify-all              -- verify all of the above"
 	@echo "make show-old-files          -- show old ISO/SHA256SUM/GPG signature files"
 	@echo "make clean-old-files         -- remove old ISO/SHA256SUM/GPG signature files"
+	@echo "make show-available          -- look for available images in the mirror"
 	@echo
 	@echo "Default set of images:"
 	@printf "  %s\n" $(images)
@@ -98,6 +99,12 @@ show-old-files:
 .PHONY: clean-old-files
 clean-old-files:
 	rm -f $(old_files)
+
+.PHONY: show-available
+show-available:
+	@for release in $(sort $(releases)); do \
+	    curl -sS $(ubuntu_mirror)/$$release/SHA256SUMS | cut -c 67-; \
+	done
 
 SHA256SUMS.%:
 	wget -c $(ubuntu_mirror)/$*/SHA256SUMS -O $@
