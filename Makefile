@@ -14,7 +14,7 @@ ubuntu_mirror := http://lt.releases.ubuntu.com
 
 images :=
 images += ubuntu-18.04.5-live-server-amd64.iso
-images += ubuntu-20.04.2-desktop-amd64.iso
+images += ubuntu-20.04.2.0-desktop-amd64.iso
 images += ubuntu-20.04.2-live-server-amd64.iso
 images += ubuntu-20.10-desktop-amd64.iso
 
