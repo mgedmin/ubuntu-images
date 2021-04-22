@@ -17,6 +17,7 @@ images += ubuntu-18.04.5-live-server-amd64.iso
 images += ubuntu-20.04.2.0-desktop-amd64.iso
 images += ubuntu-20.04.2-live-server-amd64.iso
 images += ubuntu-20.10-desktop-amd64.iso
+images += ubuntu-21.04-desktop-amd64.iso
 
 #
 # Where are the keyrings located that contain trusted repository GPG keys?
