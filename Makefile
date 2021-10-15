@@ -15,7 +15,14 @@ ubuntu_mirror := http://lt.releases.ubuntu.com
 images :=
 images += ubuntu-20.04.3-desktop-amd64.iso
 images += ubuntu-20.04.3-live-server-amd64.iso
-images += ubuntu-21.04-desktop-amd64.iso
+images += ubuntu-21.10-desktop-amd64.iso
+
+#
+# What upcoming Ubuntu releases we want to track?
+# (for 'make show-available' and 'make show-new-available')
+#
+
+check_new_releases := 22.04 22.10 23.04 23.10 24.04
 
 #
 # Where are the keyrings located that contain trusted repository GPG keys?
@@ -69,6 +76,8 @@ help:
 	@echo "make show-old-files          -- show old ISO/SHA256SUM/GPG signature files"
 	@echo "make clean-old-files         -- remove old ISO/SHA256SUM/GPG signature files"
 	@echo "make show-available          -- look for available images in the mirror"
+	@echo "make show-new-available      -- look for available images in the mirror"
+	@echo "                                that haven't been downloaded yet"
 	@echo
 	@echo "Default set of images:"
 	@printf "  %s\n" $(images)
@@ -102,9 +111,20 @@ clean-old-files:
 
 .PHONY: show-available
 show-available:
-	@for release in $(sort $(releases)); do \
-	    curl -sS $(ubuntu_mirror)/$$release/SHA256SUMS | cut -c 67-; \
+	@for release in $(sort $(releases) $(check_new_releases)); do \
+	    curl -sf $(ubuntu_mirror)/$$release/SHA256SUMS | cut -c 67-; \
+	done | grep -v ^$$ || true
+
+.PHONY: show-new-available
+show-new-available:
+	@for release in $(sort $(releases) $(check_new_releases)); do \
+	    curl -sf $(ubuntu_mirror)/$$release/SHA256SUMS | cut -c 67-; \
+	done | while read filename; do \
+	    if [ -n "$$filename" ] && ! [ -e "$$filename" ]; then \
+	        printf "%s\n" "$$filename"; \
+	    fi; \
 	done
+
 
 SHA256SUMS.%:
 	wget -c $(ubuntu_mirror)/$*/SHA256SUMS -O $@
