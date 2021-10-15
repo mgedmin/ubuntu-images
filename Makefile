@@ -3,7 +3,8 @@
 # Usually it's http://<country-code>.releases.ubuntu.com
 #
 
-ubuntu_mirror := http://lt.releases.ubuntu.com
+country := lt
+ubuntu_mirror := http://$(country).releases.ubuntu.com
 
 # NB: https://torrent.ubuntu.com/tracker_index might also be an option
 
