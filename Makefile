@@ -14,16 +14,17 @@ ubuntu_mirror := http://$(country).releases.ubuntu.com
 #
 
 images :=
-images += ubuntu-20.04.3-desktop-amd64.iso
-images += ubuntu-20.04.3-live-server-amd64.iso
-images += ubuntu-21.10-desktop-amd64.iso
+images += ubuntu-20.04.4-desktop-amd64.iso
+images += ubuntu-20.04.4-live-server-amd64.iso
+images += ubuntu-22.04-desktop-amd64.iso
+images += ubuntu-22.04-live-server-amd64.iso
 
 #
 # What upcoming Ubuntu releases we want to track?
 # (for 'make show-available' and 'make show-new-available')
 #
 
-check_new_releases := 22.04 22.10 23.04 23.10 24.04
+check_new_releases := 22.10 23.04 23.10 24.04
 
 #
 # Where are the keyrings located that contain trusted repository GPG keys?
