@@ -3,7 +3,8 @@
 # Usually it's http://<country-code>.releases.ubuntu.com
 #
 
-country := lt
+# for some reason the LT mirror doesn't have 22.04 LTS?!
+country := fi
 ubuntu_mirror := http://$(country).releases.ubuntu.com
 
 # NB: https://torrent.ubuntu.com/tracker_index might also be an option
@@ -16,15 +17,15 @@ ubuntu_mirror := http://$(country).releases.ubuntu.com
 images :=
 images += ubuntu-20.04.4-desktop-amd64.iso
 images += ubuntu-20.04.4-live-server-amd64.iso
-images += ubuntu-22.04-desktop-amd64.iso
-images += ubuntu-22.04-live-server-amd64.iso
+images += ubuntu-22.04.1-desktop-amd64.iso
+images += ubuntu-22.04.1-live-server-amd64.iso
 
 #
 # What upcoming Ubuntu releases we want to track?
 # (for 'make show-available' and 'make show-new-available')
 #
 
-check_new_releases := 22.10 23.04 23.10 24.04
+check_new_releases := 22.04 22.10 23.04 23.10 24.04
 
 #
 # Where are the keyrings located that contain trusted repository GPG keys?
