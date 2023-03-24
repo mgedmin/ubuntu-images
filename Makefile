@@ -71,6 +71,7 @@ help:
 	@echo "make all                     -- download all ISO images"
 	@echo "make <filename>.iso          -- download one ISO image"
 	@echo "make download-signatures     -- download all SHA256SUMS files"
+	@echo "make -B download-signatures  -- redownload all SHA256SUMS files"
 	@echo "make urls                    -- print URLs for ISO images and SHA256SUMS files"
 	@echo "make show-shasums            -- print SHA256 checksums for all ISO images"
 	@echo "make verify-sha256sums       -- verify GPG signatures of all SHA256SUMS files"
@@ -132,13 +133,13 @@ show-new-available:
 
 
 SHA256SUMS.%:
-	wget -c $(ubuntu_mirror)/$*/SHA256SUMS -O $@
+	wget $(ubuntu_mirror)/$*/SHA256SUMS -O $@
 
 SHA256SUMS.%.url:
 	@echo $(ubuntu_mirror)/$*/SHA256SUMS
 
 SHA256SUMS.%.gpg:
-	wget -c $(ubuntu_mirror)/$*/SHA256SUMS.gpg -O $@
+	wget $(ubuntu_mirror)/$*/SHA256SUMS.gpg -O $@
 
 SHA256SUMS.%.gpg.url:
 	@echo $(ubuntu_mirror)/$*/SHA256SUMS.gpg
