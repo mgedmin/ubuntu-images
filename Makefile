@@ -19,15 +19,14 @@ images += ubuntu-20.04.6-desktop-amd64.iso
 images += ubuntu-20.04.6-live-server-amd64.iso
 images += ubuntu-22.04.2-desktop-amd64.iso
 images += ubuntu-22.04.2-live-server-amd64.iso
-images += ubuntu-22.10-desktop-amd64.iso
-images += ubuntu-22.10-live-server-amd64.iso
+images += ubuntu-23.04-desktop-amd64.iso
 
 #
 # What upcoming Ubuntu releases we want to track?
 # (for 'make show-available' and 'make show-new-available')
 #
 
-check_new_releases := 22.04 22.10 23.04 23.10 24.04
+check_new_releases := 23.10 24.04
 
 #
 # Where are the keyrings located that contain trusted repository GPG keys?
