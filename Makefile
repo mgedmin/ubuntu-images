@@ -15,11 +15,9 @@ ubuntu_mirror := http://$(country).releases.ubuntu.com
 #
 
 images :=
-images += ubuntu-20.04.6-desktop-amd64.iso
-images += ubuntu-20.04.6-live-server-amd64.iso
-images += ubuntu-22.04.2-desktop-amd64.iso
-images += ubuntu-22.04.2-live-server-amd64.iso
-images += ubuntu-23.04-desktop-amd64.iso
+images += ubuntu-22.04.3-desktop-amd64.iso
+images += ubuntu-22.04.3-live-server-amd64.iso
+images += ubuntu-23.10-desktop-amd64.iso
 
 #
 # What upcoming Ubuntu releases we want to track?
