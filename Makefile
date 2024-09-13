@@ -131,13 +131,13 @@ show-new-available:
 	done
 
 
-SHA256SUMS.%:
+SHA256SUMS.%: ubuntu-%*.iso
 	wget $(ubuntu_mirror)/$*/SHA256SUMS -O $@
 
 SHA256SUMS.%.url:
 	@echo $(ubuntu_mirror)/$*/SHA256SUMS
 
-SHA256SUMS.%.gpg:
+SHA256SUMS.%.gpg: SHA256SUMS.%
 	wget $(ubuntu_mirror)/$*/SHA256SUMS.gpg -O $@
 
 SHA256SUMS.%.gpg.url:
