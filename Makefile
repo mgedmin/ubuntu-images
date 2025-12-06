@@ -15,10 +15,8 @@ ubuntu_mirror := http://$(country).releases.ubuntu.com
 #
 
 images :=
-images += ubuntu-22.04.5-desktop-amd64.iso
-images += ubuntu-22.04.5-live-server-amd64.iso
-images += ubuntu-24.04.2-desktop-amd64.iso
-images += ubuntu-24.04.2-live-server-amd64.iso
+images += ubuntu-24.04.3-desktop-amd64.iso
+images += ubuntu-24.04.3-live-server-amd64.iso
 
 
 #
@@ -26,7 +24,7 @@ images += ubuntu-24.04.2-live-server-amd64.iso
 # (for 'make show-available' and 'make show-new-available')
 #
 
-check_new_releases := 24.04 24.10 25.04 25.10 26.04
+check_new_releases := 24.04 25.10 26.04
 
 #
 # Where are the keyrings located that contain trusted repository GPG keys?
