@@ -3,8 +3,7 @@
 # Usually it's http://<country-code>.releases.ubuntu.com
 #
 
-# for some reason the LT mirror doesn't have 22.04 LTS?!
-country := fi
+country := de
 ubuntu_mirror := http://$(country).releases.ubuntu.com
 
 # NB: https://torrent.ubuntu.com/tracker_index might also be an option
@@ -15,8 +14,10 @@ ubuntu_mirror := http://$(country).releases.ubuntu.com
 #
 
 images :=
-images += ubuntu-24.04.3-desktop-amd64.iso
-images += ubuntu-24.04.3-live-server-amd64.iso
+##images += ubuntu-24.04.4-desktop-amd64.iso
+##images += ubuntu-24.04.4-live-server-amd64.iso
+images += ubuntu-26.04-desktop-amd64.iso
+##images += ubuntu-26.04-live-server-amd64.iso
 
 
 #
@@ -24,7 +25,7 @@ images += ubuntu-24.04.3-live-server-amd64.iso
 # (for 'make show-available' and 'make show-new-available')
 #
 
-check_new_releases := 24.04 25.10 26.04
+check_new_releases := 24.04 26.04 26.10
 
 #
 # Where are the keyrings located that contain trusted repository GPG keys?
