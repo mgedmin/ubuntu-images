@@ -14,7 +14,7 @@ ubuntu_mirror := http://$(country).releases.ubuntu.com
 #
 
 images :=
-##images += ubuntu-24.04.4-desktop-amd64.iso
+images += ubuntu-24.04.4-desktop-amd64.iso
 ##images += ubuntu-24.04.4-live-server-amd64.iso
 images += ubuntu-26.04-desktop-amd64.iso
 ##images += ubuntu-26.04-live-server-amd64.iso
