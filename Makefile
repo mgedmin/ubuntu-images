@@ -62,7 +62,7 @@ old_files = $(sort $(old_images) $(old_sha256sums) $(old_sha256sums_gpg))
 # Rules
 #
 
-all: $(sha256sums) $(sha256sums_gpg) $(images)
+all: $(images) $(sha256sums) $(sha256sums_gpg)
 .PHONY: all
 
 help:
