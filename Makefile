@@ -142,6 +142,10 @@ SHA256SUMS.%.gpg: SHA256SUMS.%
 SHA256SUMS.%.gpg.url:
 	@echo $(ubuntu_mirror)/$*/SHA256SUMS.gpg
 
+.PRECIOUS: ubuntu-%*.iso
+ubuntu-%*.iso:
+	@
+
 ubuntu-%.iso:
 	wget -c $(ubuntu_mirror)/$(call release,$*)/$@
 
