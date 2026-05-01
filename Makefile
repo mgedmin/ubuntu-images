@@ -130,6 +130,9 @@ show-new-available:
 	done
 
 
+# The dependency on the .iso is to force a re-download of the SHA256SUMS file
+# when you download a new point release .iso: the timestamp of the new .iso
+# will be newer than the timestamp of the old SHA256SUMS{,.gpg}.
 SHA256SUMS.%: ubuntu-%*.iso
 	wget $(ubuntu_mirror)/$*/SHA256SUMS -O $@
 
@@ -142,6 +145,12 @@ SHA256SUMS.%.gpg: SHA256SUMS.%
 SHA256SUMS.%.gpg.url:
 	@echo $(ubuntu_mirror)/$*/SHA256SUMS.gpg
 
+# The SHA256SUMS dependency on *.iso backfires on the initial download, when
+# there are no matching .iso images for a particular release.  Shell expansion
+# rules leave the wildcard unexpanded, and then make tries tries to build an
+# 'ubuntu-26.04*.iso', and then it tries to clean it up by running 'rm
+# ubuntu-26.04*.iso'.  Suppress both by introducing a rule that matches better
+# than the generic ubuntu-%.iso and marking it .PRECIOUS.
 .PRECIOUS: ubuntu-%*.iso
 ubuntu-%*.iso:
 	@
